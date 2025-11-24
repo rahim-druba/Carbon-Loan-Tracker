@@ -1,0 +1,45 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">My Carbon Ledger</h1>
+
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+        <ul class="divide-y divide-gray-200">
+            {% for ledger in ledgers %}
+            <li>
+                <a href="{% url 'ledger_detail' ledger.id %}" class="block hover:bg-gray-50">
+                    <div class="px-4 py-4 sm:px-6">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-green-600 truncate">
+                                Year {{ ledger.year }}
+                            </p>
+                            <div class="ml-2 flex-shrink-0 flex">
+                                <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {% if ledger.status == 'CLEARED' %}bg-green-100 text-green-800
+                                    {% elif ledger.status == 'PARTIALLY_PAID' %}bg-yellow-100 text-yellow-800
+                                    {% else %}bg-red-100 text-red-800{% endif %}">
+                                    {{ ledger.get_status_display }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-2 sm:flex sm:justify-between">
+                            <div class="sm:flex">
+                                <p class="flex items-center text-sm text-gray-500">
+                                    Total CO2: {{ ledger.total_co2_tonnes|floatformat:2 }} Tonnes
+                                </p>
+                                <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                                    Required Trees: {{ ledger.required_trees }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {% empty %}
+            <li class="px-4 py-4 sm:px-6 text-center text-gray-500">No ledger entries found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
