@@ -16,8 +16,11 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-tlqi4=2v&bji-(#qbl*q8d-i
 
 DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+# Add this line to trust Ngrok
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok-free.app',
+]
 # Application definition
 
 INSTALLED_APPS = [
