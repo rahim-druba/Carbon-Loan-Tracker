@@ -27,8 +27,10 @@
                 {% for log in logs %}
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ log.date }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{
-                        log.get_usage_type_display }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        Display: {{ log.get_usage_type_display }} <br>
+
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ log.amount }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-semibold">{{ log.co2_emitted }}
                     </td>

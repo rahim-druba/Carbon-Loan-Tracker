@@ -25,6 +25,7 @@ urlpatterns = [
     
     # Usage & Analytics
     path('usage/', views.usage_history, name='usage_history'),
+    path('trip-planner/', views.trip_planner, name='trip_planner'),
     path('analytics/citizen/', views.citizen_analytics, name='citizen_analytics'),
     
     # Analytics User / Admin
