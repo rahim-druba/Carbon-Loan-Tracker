@@ -32,5 +32,38 @@
         Don't have an account? <a href="{% url 'register' %}"
             class="font-medium text-green-600 hover:text-green-500">Register here</a>
     </p>
+
+    <!-- Quick Login -->
+    <div class="mt-8 pt-6 border-t border-gray-200">
+        <h3 class="text-sm font-medium text-gray-500 text-center mb-4">Quick Login (Demo)</h3>
+        <div class="grid grid-cols-2 gap-2">
+            <button onclick="quickLogin('citizen_1', 'password123')"
+                class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded text-xs text-gray-700">Citizen 1</button>
+            <button onclick="quickLogin('citizen_2', 'password123')"
+                class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded text-xs text-gray-700">Citizen 2</button>
+            <button onclick="quickLogin('citizen_3', 'password123')"
+                class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded text-xs text-gray-700">Citizen 3</button>
+            <button onclick="quickLogin('citizen_4', 'password123')"
+                class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded text-xs text-gray-700">Citizen 4</button>
+            <button onclick="quickLogin('citizen_5', 'password123')"
+                class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded text-xs text-gray-700">Citizen 5</button>
+            <button onclick="quickLogin('agent_user', 'password123')"
+                class="px-3 py-2 bg-green-100 hover:bg-green-200 rounded text-xs text-green-800">Planter
+                (Agent)</button>
+            <button onclick="quickLogin('analytics', 'password123')"
+                class="px-3 py-2 bg-blue-100 hover:bg-blue-200 rounded text-xs text-blue-800">Analyzer</button>
+            <button onclick="quickLogin('admin_user', 'password123')"
+                class="px-3 py-2 bg-red-100 hover:bg-red-200 rounded text-xs text-red-800">Admin</button>
+        </div>
+    </div>
 </div>
+
+<script>
+    function quickLogin(username, password) {
+        document.querySelector('input[name="username"]').value = username;
+        document.querySelector('input[name="password"]').value = password;
+        // Optional: Auto-submit
+        // document.querySelector('form').submit();
+    }
+</script>
 {% endblock %}

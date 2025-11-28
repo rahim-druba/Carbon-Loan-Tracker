@@ -1,0 +1,63 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">My Carbon Analytics</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Summary Cards -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-lg font-medium text-gray-500">Total CO2 Emitted</h3>
+            <p class="text-4xl font-bold text-red-600 mt-2">{{ total_co2|stringformat:".2f" }} <span
+                    class="text-sm text-gray-400">tonnes</span></p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-lg font-medium text-gray-500">Primary Source</h3>
+            <p class="text-4xl font-bold text-gray-800 mt-2">{{ most_used_type }}</p>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h2 class="text-xl font-semibold mb-6">Emissions by Source</h2>
+        <div class="h-96">
+            <canvas id="usageChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    const usageData = JSON.parse('{{ usage_chart_data|escapejs }}');
+
+    const ctx = document.getElementById('usageChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: usageData.labels,
+            datasets: [{
+                label: 'CO2 Emissions (Tonnes)',
+                data: usageData.data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

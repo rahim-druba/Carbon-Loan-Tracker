@@ -16,6 +16,21 @@ urlpatterns = [
     path('convert/', views.convert_carbon, name='convert_carbon'),
     path('transactions/', views.transaction_history, name='transaction_history'),
     path('purchase/<int:ledger_id>/', views.purchase_trees, name='purchase_trees'),
+    
+    # Assets
+    path('assets/', views.assets_list, name='assets_list'),
+    path('assets/add/vehicle/', views.add_vehicle, name='add_vehicle'),
+    path('assets/add/onay/', views.add_onay, name='add_onay'),
+    path('assets/add/property/', views.add_property, name='add_property'),
+    
+    # Usage & Analytics
+    path('usage/', views.usage_history, name='usage_history'),
+    path('analytics/citizen/', views.citizen_analytics, name='citizen_analytics'),
+    
+    # Analytics User / Admin
+    path('analytics/dashboard/', views.analytics_dashboard, name='analytics_dashboard'),
+    path('analytics/user/<int:user_id>/', views.analytics_user_detail, name='analytics_user_detail'),
+    path('admin/config/', views.admin_config, name='admin_config'),
 
     # Agent
     path('agent/queue/', views.agent_queue, name='agent_queue'),
