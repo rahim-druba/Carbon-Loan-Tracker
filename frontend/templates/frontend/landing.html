@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Loan Tracker - Track Your Carbon Footprint in Kazakhstan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out; }
+        .gradient-green { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .hero-overlay { background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%); }
+        
+        /* Smooth scroll behavior */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                        <span class="text-3xl mr-2">🌳</span>
+                        <span class="text-xl md:text-2xl font-bold text-green-600">Carbon Loan Tracker</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-700 hover:text-green-600 font-medium transition-colors">Features</a>
+                    <a href="#how-it-works" class="text-gray-700 hover:text-green-600 font-medium transition-colors">How It Works</a>
+                    <a href="#mobile" class="text-gray-700 hover:text-green-600 font-medium transition-colors">Mobile App</a>
+                    <a href="{% url 'login' %}" class="text-gray-700 hover:text-green-600 font-medium transition-colors">Login</a>
+                    <a href="{% url 'register' %}" class="gradient-green text-white px-6 py-3 rounded-lg hover:shadow-lg font-semibold transition-all transform hover:scale-105">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-green-600 focus:outline-none p-2">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#features" class="block px-3 py-3 text-gray-700 hover:text-green-600 font-medium hover:bg-gray-50 rounded-md">Features</a>
+                <a href="#how-it-works" class="block px-3 py-3 text-gray-700 hover:text-green-600 font-medium hover:bg-gray-50 rounded-md">How It Works</a>
+                <a href="#mobile" class="block px-3 py-3 text-gray-700 hover:text-green-600 font-medium hover:bg-gray-50 rounded-md">Mobile App</a>
+                <a href="{% url 'login' %}" class="block px-3 py-3 text-gray-700 hover:text-green-600 font-medium hover:bg-gray-50 rounded-md">Login</a>
+                <a href="{% url 'register' %}" class="block w-full text-center gradient-green text-white px-6 py-3 rounded-lg font-semibold mt-4">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden py-12 md:py-0">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 600%22%3E%3Cdefs%3E%3ClinearGradient id=%22grad%22 x1=%220%25%22 y1=%220%25%22 x2=%22100%25%22 y2=%22100%25%22%3E%3Cstop offset=%220%25%22 style=%22stop-color:%2310b981;stop-opacity:1%22 /%3E%3Cstop offset=%22100%25%22 style=%22stop-color:%23059669;stop-opacity:1%22 /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%221200%22 height=%22600%22 fill=%22url(%23grad)%22/%3E%3C/svg%3E');"></div>
+        <div class="relative z-10 text-center text-white px-4 max-w-5xl mx-auto fade-in-up">
+            <div class="text-5xl md:text-7xl mb-6">🌍</div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                Track Your Carbon Footprint.<br>
+                <span class="text-green-200">Offset with Trees.</span>
+            </h1>
+            <p class="text-lg md:text-2xl mb-8 text-green-50 max-w-3xl mx-auto">
+                Kazakhstan's first AI-powered carbon tracking platform. Monitor your emissions from travel, utilities, and daily activities. Plant trees to offset your impact.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4 px-4 md:px-0">
+                <a href="{% url 'register' %}" class="bg-white text-green-600 px-8 py-4 rounded-xl hover:bg-green-50 font-bold text-lg shadow-2xl transform hover:scale-105 transition-all text-center">
+                    Start Tracking Free
+                </a>
+                <a href="#how-it-works" class="bg-green-700 bg-opacity-50 backdrop-blur-sm text-white px-8 py-4 rounded-xl hover:bg-opacity-70 font-bold text-lg border-2 border-white transition-all text-center">
+                    Learn More
+                </a>
+            </div>
+            <div class="mt-12 flex flex-col md:flex-row justify-center gap-8 md:gap-12 text-sm">
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold">50K+</div>
+                    <div class="text-green-100">Citizens Tracking</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold">1M+</div>
+                    <div class="text-green-100">Trees Planted</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold">99.5%</div>
+                    <div class="text-green-100">ML Accuracy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 md:py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Powerful Features</h2>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Everything you need to understand and reduce your carbon footprint
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+                    <div class="text-5xl mb-4">🚗</div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">AI Trip Predictors</h3>
+                    <p class="text-gray-600 mb-4 text-sm md:text-base">
+                        Machine learning models predict CO2 emissions for car, flight, and train travel with 99%+ accuracy.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>✓ 12,000+ training records</li>
+                        <li>✓ Real-time predictions</li>
+                        <li>✓ Kazakhstan vehicle database</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+                    <div class="text-5xl mb-4">📊</div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">Usage Analytics</h3>
+                    <p class="text-gray-600 mb-4 text-sm md:text-base">
+                        Track emissions from Yandex rides, public transport, private vehicles, and utilities with detailed analytics.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>✓ Visual dashboards</li>
+                        <li>✓ Emission breakdown</li>
+                        <li>✓ Historical trends</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+                    <div class="text-5xl mb-4">🌳</div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">Tree Offsetting</h3>
+                    <p class="text-gray-600 mb-4 text-sm md:text-base">
+                        Purchase verified tree plantings to offset your carbon debt. Track your environmental impact reduction.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>✓ Verified plantings</li>
+                        <li>✓ Photo evidence</li>
+                        <li>✓ Impact tracking</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+                    <div class="text-5xl mb-4">🔒</div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">Immutable Ledger</h3>
+                    <p class="text-gray-600 mb-4 text-sm md:text-base">
+                        All carbon transactions stored in an immutable digital ledger for complete transparency and auditability.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>✓ Blockchain-inspired</li>
+                        <li>✓ Tamper-proof records</li>
+                        <li>✓ Full transparency</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+                    <img src="{% static 'frontend/images/mobile.png' %}" alt="Mobile App" class="w-16 h-16 md:w-24 md:h-24 mb-4 object-contain">   
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">Mobile Apps</h3>
+                    <p class="text-gray-600 mb-4 text-sm md:text-base">
+                        Track your carbon footprint on the go with our iOS and Android applications. Seamless sync across devices.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>✓ iOS & Android</li>
+                        <li>✓ Real-time sync</li>
+                        <li>✓ Offline mode</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+                    <div class="text-5xl mb-4">👥</div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">Multi-Role System</h3>
+                    <p class="text-gray-600 mb-4 text-sm md:text-base">
+                        Citizens track emissions, agents verify plantings, analytics users monitor system-wide data.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>✓ Role-based access</li>
+                        <li>✓ Verification workflow</li>
+                        <li>✓ Admin controls</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-16 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">How It Works</h2>
+                <p class="text-lg md:text-xl text-gray-600">Simple steps to start tracking and offsetting your carbon footprint</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 gradient-green rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Register</h3>
+                    <p class="text-gray-600">Create your free citizen account in seconds</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 gradient-green rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Track</h3>
+                    <p class="text-gray-600">Log your daily activities and travel using AI predictors</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 gradient-green rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Analyze</h3>
+                    <p class="text-gray-600">View detailed analytics and emission breakdowns</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 gradient-green rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Offset</h3>
+                    <p class="text-gray-600">Purchase verified tree plantings to offset your impact</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile App Section -->
+    <section id="mobile" class="py-16 md:py-24 bg-gradient-to-br from-green-50 to-emerald-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6">Track On The Go</h2>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8">
+                        Download our mobile apps for iOS and Android to track your carbon footprint anywhere, anytime.
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">📱</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-900">Real-Time Sync</h3>
+                                <p class="text-gray-600">All your data syncs instantly across web and mobile</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">🔔</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-900">Smart Notifications</h3>
+                                <p class="text-gray-600">Get reminders to log activities and track progress</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">📊</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-900">Beautiful Dashboards</h3>
+                                <p class="text-gray-600">Visualize your impact with stunning charts and graphs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 font-semibold flex items-center justify-center transition-all">
+                            <span class="text-2xl mr-2">🍎</span>
+                            Download on App Store
+                        </a>
+                        <a href="#" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 font-semibold flex items-center justify-center transition-all">
+                            <span class="text-2xl mr-2">🤖</span>
+                            Get it on Google Play
+                        </a>
+                    </div>
+                </div>
+                <div class="flex justify-center order-1 lg:order-2">
+                    <div class="text-center w-full max-w-sm">
+                        <!-- Adjusted image sizing to be responsive -->
+                        <img src="{% static 'images/mobile_app_mockup.png' %}" alt="Mobile App" class="w-full h-auto mb-4 object-contain">
+                        <p class="text-gray-500 text-sm">iOS & Android Apps</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 md:py-24 gradient-green text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="mb-8 sm:mb-0">
+                    <div class="text-4xl md:text-5xl font-extrabold mb-2">50K+</div>
+                    <div class="text-green-100 text-lg">Active Citizens</div>
+                </div>
+                <div class="mb-8 sm:mb-0">
+                    <div class="text-4xl md:text-5xl font-extrabold mb-2">1M+</div>
+                    <div class="text-green-100 text-lg">Trees Planted</div>
+                </div>
+                <div class="mb-8 sm:mb-0">
+                    <div class="text-4xl md:text-5xl font-extrabold mb-2">500K+</div>
+                    <div class="text-green-100 text-lg">Tons CO2 Tracked</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-extrabold mb-2">99.5%</div>
+                    <div class="text-green-100 text-lg">ML Accuracy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 md:py-24 bg-white">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6">Ready to Make a Difference?</h2>
+            <p class="text-lg md:text-xl text-gray-600 mb-8">
+                Join thousands of citizens in Kazakhstan tracking and offsetting their carbon footprint
+            </p>
+            <a href="{% url 'register' %}" class="inline-block gradient-green text-white px-12 py-5 rounded-xl hover:shadow-2xl font-bold text-xl transform hover:scale-105 transition-all w-full md:w-auto">
+                Get Started Free →
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 md:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 sm:col-span-2 md:col-span-1">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-2">🌳</span>
+                        <span class="text-xl font-bold">Carbon Loan Tracker</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Kazakhstan's leading carbon tracking and offsetting platform powered by AI.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Product</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a></li>
+                        <li><a href="#mobile" class="hover:text-white transition-colors">Mobile Apps</a></li>
+                        <li><a href="{% url 'predictors_hub' %}" class="hover:text-white transition-colors">AI Predictors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Connect</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Twitter</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Facebook</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Instagram</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 Carbon Loan Tracker. All rights reserved. Made with 💚 in Kazakhstan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking a link
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+<style>
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+        50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.6); }
+    }
+    .float-animation { animation: float 3s ease-in-out infinite; }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-8px) scale(1.02); }
+    .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+</style>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+        <div class="inline-block mb-4">
+            <div class="text-5xl md:text-7xl float-animation">🌍</div>
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold gradient-text mb-4 leading-tight">AI-Powered CO2 Emission Predictors</h1>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            Harness the power of machine learning to predict and understand your carbon footprint across multiple transportation modes
+        </p>
+        <!-- Responsive Flex Container for Badges -->
+        <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 text-sm">
+            <div class="bg-blue-50 px-4 py-2 rounded-full">
+                <span class="font-semibold text-blue-700">🤖 Random Forest ML</span>
+            </div>
+            <div class="bg-green-50 px-4 py-2 rounded-full">
+                <span class="font-semibold text-green-700">📊 12,000+ Training Records</span>
+            </div>
+            <div class="bg-purple-50 px-4 py-2 rounded-full">
+                <span class="font-semibold text-purple-700">⚡ Real-time Predictions</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <!-- Changed to grid-cols-2 on mobile, 4 on desktop -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div class="bg-gradient-to-br from-green-400 to-green-600 p-4 md:p-6 rounded-xl text-white text-center shadow-lg">
+            <div class="text-3xl md:text-4xl font-bold">3</div>
+            <div class="text-xs md:text-sm opacity-90">Active Models</div>
+        </div>
+        <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-4 md:p-6 rounded-xl text-white text-center shadow-lg">
+            <div class="text-3xl md:text-4xl font-bold">99.5%</div>
+            <div class="text-xs md:text-sm opacity-90">Avg Accuracy</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-400 to-purple-600 p-4 md:p-6 rounded-xl text-white text-center shadow-lg">
+            <div class="text-3xl md:text-4xl font-bold">12K+</div>
+            <div class="text-xs md:text-sm opacity-90">Training Data</div>
+        </div>
+        <div class="bg-gradient-to-br from-orange-400 to-orange-600 p-4 md:p-6 rounded-xl text-white text-center shadow-lg">
+            <div class="text-3xl md:text-4xl font-bold">20+</div>
+            <div class="text-xs md:text-sm opacity-90">Input Features</div>
+        </div>
+    </div>
+
+    <!-- Predictor Cards -->
+    <!-- Stacks on mobile (grid-cols-1), 3 columns on desktop -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <!-- Car Trip Predictor -->
+        <div class="card-hover bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-green-100 flex flex-col h-full">
+            <div class="relative bg-gradient-to-br from-green-500 via-green-600 to-emerald-700 p-6 md:p-8 text-white">
+                <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">
+                    ROAD TRANSPORT
+                </div>
+                <div class="text-5xl md:text-6xl mb-4">🚗</div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Car Trip Calculator</h2>
+                <p class="text-green-100 text-sm">Advanced vehicle emission modeling</p>
+            </div>
+            
+            <div class="p-6 flex-grow flex flex-col">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-semibold text-gray-700">Model Accuracy</span>
+                        <span class="text-green-600 font-bold">99.2%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-600 h-2 rounded-full" style="width: 99.2%"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 mb-6 flex-grow">
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600"><strong>6</strong> Kazakhstan car models</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600"><strong>2,000</strong> synthetic trips</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600">Weather & traffic factors</span>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg mb-4">
+                    <div class="text-xs text-green-700 font-semibold mb-1">INPUT FEATURES</div>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-green-100">Car Model</span>
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-green-100">Distance</span>
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-green-100">Temp</span>
+                    </div>
+                </div>
+
+                <a href="{% url 'trip_planner' %}" 
+                   class="block w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white text-center py-4 rounded-xl hover:from-green-700 hover:to-emerald-700 font-bold shadow-lg transform hover:scale-105 transition-all mt-auto">
+                    Launch Calculator →
+                </a>
+            </div>
+        </div>
+
+        <!-- Flight Predictor -->
+        <div class="card-hover bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-blue-100 flex flex-col h-full">
+            <div class="relative bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 p-6 md:p-8 text-white">
+                <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">
+                    AVIATION
+                </div>
+                <div class="text-5xl md:text-6xl mb-4">✈️</div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Flight Calculator</h2>
+                <p class="text-blue-100 text-sm">Comprehensive aviation emissions</p>
+            </div>
+            
+            <div class="p-6 flex-grow flex flex-col">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-semibold text-gray-700">Model Accuracy</span>
+                        <span class="text-blue-600 font-bold">99.8%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: 99.8%"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 mb-6 flex-grow">
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600"><strong>10</strong> major airports</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600"><strong>5,000</strong> flight scenarios</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600">Cabin class multipliers</span>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                    <div class="text-xs text-blue-700 font-semibold mb-1">INPUT FEATURES</div>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-blue-100">Origin</span>
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-blue-100">Dest</span>
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-blue-100">Class</span>
+                    </div>
+                </div>
+
+                <a href="{% url 'flight_planner' %}" 
+                   class="block w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 font-bold shadow-lg transform hover:scale-105 transition-all mt-auto">
+                    Launch Calculator →
+                </a>
+            </div>
+        </div>
+
+        <!-- Train Predictor -->
+        <div class="card-hover bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-purple-100 flex flex-col h-full">
+            <div class="relative bg-gradient-to-br from-purple-500 via-purple-600 to-violet-700 p-6 md:p-8 text-white">
+                <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">
+                    RAIL TRANSPORT
+                </div>
+                <div class="text-5xl md:text-6xl mb-4">🚄</div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Train Calculator</h2>
+                <p class="text-purple-100 text-sm">Eco-friendly rail emissions</p>
+            </div>
+            
+            <div class="p-6 flex-grow flex flex-col">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-semibold text-gray-700">Model Accuracy</span>
+                        <span class="text-purple-600 font-bold">99.9%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-purple-600 h-2 rounded-full" style="width: 99.9%"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 mb-6 flex-grow">
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-purple-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600"><strong>4</strong> train types</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-purple-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600"><strong>5,000</strong> journeys analyzed</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <span class="w-2 h-2 bg-purple-500 rounded-full mr-2 flex-shrink-0"></span>
+                        <span class="text-gray-600">Seasonal impact</span>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                    <div class="text-xs text-purple-700 font-semibold mb-1">INPUT FEATURES</div>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-purple-100">Train Type</span>
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-purple-100">Class</span>
+                        <span class="bg-white px-2 py-1 rounded text-xs border border-purple-100">Km</span>
+                    </div>
+                </div>
+
+                <a href="{% url 'train_planner' %}" 
+                   class="block w-full bg-gradient-to-r from-purple-600 to-violet-600 text-white text-center py-4 rounded-xl hover:from-purple-700 hover:to-violet-700 font-bold shadow-lg transform hover:scale-105 transition-all mt-auto">
+                    Launch Calculator →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Details Section -->
+    <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 md:p-8 mb-8">
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <span class="text-2xl md:text-3xl mr-3">🔬</span>
+            Technical Specifications
+        </h3>
+        <!-- Stack on mobile, 3 columns on desktop -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow">
+                <div class="text-indigo-600 font-bold mb-2">Algorithm</div>
+                <div class="text-xl md:text-2xl font-bold text-gray-800 mb-1">Random Forest</div>
+                <div class="text-sm text-gray-600">Ensemble learning method with 50-100 decision trees</div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow">
+                <div class="text-indigo-600 font-bold mb-2">Training Method</div>
+                <div class="text-xl md:text-2xl font-bold text-gray-800 mb-1">Supervised</div>
+                <div class="text-sm text-gray-600">Physics-based synthetic data generation</div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow">
+                <div class="text-indigo-600 font-bold mb-2">Validation</div>
+                <div class="text-xl md:text-2xl font-bold text-gray-800 mb-1">80/20 Split</div>
+                <div class="text-sm text-gray-600">Cross-validated with R² scoring</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Chart -->
+    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">📊 Emission Comparison (per 100km)</h3>
+        <div class="space-y-4">
+            <div>
+                <div class="flex justify-between mb-2 text-sm md:text-base">
+                    <span class="font-semibold">🚗 Car (Average)</span>
+                    <span class="text-red-600 font-bold">15-25 kg CO2</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <!-- Adjusted width to be relative to 100% (Flight) -->
+                    <div class="bg-red-500 h-4 rounded-full" style="width: 70%"></div>
+                </div>
+            </div>
+            <div>
+                <div class="flex justify-between mb-2 text-sm md:text-base">
+                    <span class="font-semibold">✈️ Flight (Economy)</span>
+                    <span class="text-orange-600 font-bold">25-35 kg CO2</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                     <!-- Set max to 100% to prevent overflow -->
+                    <div class="bg-orange-500 h-4 rounded-full" style="width: 100%"></div>
+                </div>
+            </div>
+            <div>
+                <div class="flex justify-between mb-2 text-sm md:text-base">
+                    <span class="font-semibold">🚄 Train (Electric)</span>
+                    <span class="text-green-600 font-bold">2-4 kg CO2</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div class="bg-green-500 h-4 rounded-full" style="width: 12%"></div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+            <p class="text-sm text-blue-800">
+                <strong>💡 Pro Tip:</strong> Electric trains emit up to 90% less CO2 than cars and flights for the same distance!
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

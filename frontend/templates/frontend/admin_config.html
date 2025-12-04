@@ -1,0 +1,61 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">System Configuration</h1>
+
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h2 class="text-xl font-semibold mb-4">Update Conversion Rate</h2>
+        <p class="text-gray-600 mb-4 text-sm">Set the amount of CO2 (in tonnes) that one tree offsets for a specific
+            year.</p>
+
+        <form method="post" class="flex gap-4 items-end">
+            {% csrf_token %}
+            <div>
+                <label for="year" class="block text-sm font-medium text-gray-700">Year</label>
+                <input type="number" name="year" id="year" value="2025"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm border p-2"
+                    required>
+            </div>
+            <div>
+                <label for="rate" class="block text-sm font-medium text-gray-700">CO2 per Tree (Tonnes)</label>
+                <input type="number" step="0.0001" name="rate" id="rate"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm border p-2"
+                    required>
+            </div>
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Update
+                Rate</button>
+        </form>
+    </div>
+
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Current Rates</h3>
+        </div>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CO2 per
+                        Tree (Tonnes)</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last
+                        Updated</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for rate in rates %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ rate.year }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ rate.co2_per_tree }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ rate.updated_at }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500 italic">No rates configured.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

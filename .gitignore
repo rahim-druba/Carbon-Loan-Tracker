@@ -1,0 +1,34 @@
+﻿# Python & Django
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+db.sqlite3
+*.log
+
+# Virtual environments - NUCLEAR
+venv/
+.venv/
+env/
+ENV/
+venv*/
+.venv*/
+
+# Environment files
+.env
+.env.local
+.env.example
+
+# Media & static (you usually don't commit these)
+media/
+staticfiles/
+
+# VS Code / PyCharm / etc
+.vscode/
+.idea/
+*.sublime-*
+
+# Other
+.DS_Store
+Thumbs.db
+*.docx

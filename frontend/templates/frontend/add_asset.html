@@ -1,0 +1,49 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">{{ title }}</h2>
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+            <p class="text-xs text-gray-500 mt-1">{{ field.help_text }}</p>
+            {% endif %}
+            {% for error in field.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit"
+            class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+            Save
+        </button>
+    </form>
+    <div class="mt-4 text-center">
+        <a href="{% url 'assets_list' %}" class="text-sm text-gray-600 hover:text-gray-900">Cancel</a>
+    </div>
+</div>
+
+<style>
+    /* Simple styling for form inputs to match Tailwind */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        margin-top: 0.25rem;
+    }
+
+    input[type="file"] {
+        margin-top: 0.25rem;
+    }
+</style>
+{% endblock %}

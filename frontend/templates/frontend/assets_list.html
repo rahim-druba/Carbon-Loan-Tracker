@@ -1,0 +1,46 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">My Assets</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Vehicles</h2>
+            <ul class="space-y-2 mb-4">
+                {% for vehicle in vehicles %}
+                <li class="p-2 bg-gray-50 rounded border">{{ vehicle }}</li>
+                {% empty %}
+                <li class="text-gray-500 italic">No vehicles added.</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'add_vehicle' %}" class="text-green-600 hover:text-green-800 font-medium">+ Add Vehicle</a>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Onay Cards</h2>
+            <ul class="space-y-2 mb-4">
+                {% for card in onay_cards %}
+                <li class="p-2 bg-gray-50 rounded border">{{ card }}</li>
+                {% empty %}
+                <li class="text-gray-500 italic">No Onay cards added.</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'add_onay' %}" class="text-green-600 hover:text-green-800 font-medium">+ Add Onay Card</a>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Properties</h2>
+            <ul class="space-y-2 mb-4">
+                {% for property in properties %}
+                <li class="p-2 bg-gray-50 rounded border">{{ property }}</li>
+                {% empty %}
+                <li class="text-gray-500 italic">No properties added.</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'add_property' %}" class="text-green-600 hover:text-green-800 font-medium">+ Add
+                Property</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
