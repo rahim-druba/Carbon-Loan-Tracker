@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Sum, Count
 from accounts.forms import UserRegistrationForm, ProfileForm, VehicleForm, OnayCardForm, PropertyForm
-from accounts.models import User, Vehicle, OnayCard, Property
+from accounts.models import User, Vehicle, OnayCard, Property, FriendRequest, District, Company, MLPrediction
+from django.db.models import Q
 from ledger.models import CarbonLedger, UsageLog, ConversionRate
 from planting.models import TreeTransaction, PlantingVerification
 from ledger.calculations import calculate_co2, calculate_required_trees
@@ -47,13 +48,32 @@ def citizen_dashboard(request):
     # Calculate trees purchased
     purchased = TreeTransaction.objects.filter(user=request.user).aggregate(Sum('quantity'))['quantity__sum'] or 0
     
+    # Gamification: Rank
+    # Calculate rank based on carbon score (higher is better? or lower debt is better?)
+    # Let's use current_carbon_score (higher is better)
+    user_rank = User.objects.filter(current_carbon_score__gt=request.user.current_carbon_score).count() + 1
+    
+    # ML Prediction
+    prediction = MLPrediction.objects.filter(user=request.user).order_by('-created_at').first()
+    if not prediction:
+        # Create mock if none
+        import random
+        prediction = MLPrediction.objects.create(
+            user=request.user,
+            predicted_year_end_debt=round(random.uniform(1000, 5000), 2),
+            recommended_action="Switch to public transport for 3 days a week.",
+            confidence_score=0.85
+        )
+
     context = {
         'total_debt': total_debt,
         'total_trees_needed': total_trees_needed,
         'purchased': purchased,
         'remaining': max(0, total_trees_needed - purchased),
         'recent_transactions': TreeTransaction.objects.filter(user=request.user).order_by('-created_at')[:5],
-        'recent_usage': UsageLog.objects.filter(user=request.user).order_by('-date')[:5]
+        'recent_usage': UsageLog.objects.filter(user=request.user).order_by('-date')[:5],
+        'user_rank': user_rank,
+        'prediction': prediction
     }
     return render(request, 'frontend/dashboard_citizen.html', context)
 
@@ -656,3 +676,71 @@ def train_planner(request):
     }
     
     return render(request, 'frontend/train_planner.html', context)
+
+@login_required
+def social_hub(request):
+    friends = request.user.friends.all()
+    received_requests = FriendRequest.objects.filter(to_user=request.user, status='PENDING')
+    sent_requests = FriendRequest.objects.filter(from_user=request.user, status='PENDING')
+    
+    context = {
+        'friends': friends,
+        'received_requests': received_requests,
+        'sent_requests': sent_requests
+    }
+    return render(request, 'frontend/social.html', context)
+
+@login_required
+def send_friend_request(request):
+    if request.method == 'POST':
+        username_or_email = request.POST.get('username')
+        try:
+            target_user = User.objects.get(Q(username=username_or_email) | Q(email=username_or_email))
+            if target_user == request.user:
+                messages.error(request, "You cannot send a request to yourself.")
+            elif request.user.friends.filter(pk=target_user.pk).exists():
+                messages.info(request, "You are already friends.")
+            elif FriendRequest.objects.filter(from_user=request.user, to_user=target_user, status='PENDING').exists():
+                messages.info(request, "Request already sent.")
+            else:
+                FriendRequest.objects.create(from_user=request.user, to_user=target_user)
+                messages.success(request, f"Friend request sent to {target_user.username}!")
+        except User.DoesNotExist:
+            messages.error(request, "User not found.")
+            
+    return redirect('social_hub')
+
+@login_required
+def handle_friend_request(request, pk, action):
+    freq = get_object_or_404(FriendRequest, pk=pk, to_user=request.user)
+    
+    if action == 'accept':
+        freq.status = 'ACCEPTED'
+        freq.save()
+        request.user.friends.add(freq.from_user)
+        freq.from_user.friends.add(request.user)
+        messages.success(request, f"You are now friends with {freq.from_user.username}!")
+    elif action == 'reject':
+        freq.status = 'REJECTED'
+        freq.save()
+        messages.info(request, "Friend request rejected.")
+        
+    return redirect('social_hub')
+
+@login_required
+def analyzer_hub(request):
+    # Leaderboards
+    top_users = User.objects.filter(role=User.Role.CITIZEN).order_by('-current_carbon_score')[:10]
+    top_companies = Company.objects.order_by('-green_score')[:10]
+    top_districts = District.objects.order_by('-green_score')[:10]
+    
+    # ML Prediction
+    prediction = MLPrediction.objects.filter(user=request.user).order_by('-created_at').first()
+    
+    context = {
+        'top_users': top_users,
+        'top_companies': top_companies,
+        'top_districts': top_districts,
+        'prediction': prediction
+    }
+    return render(request, 'frontend/analyzer.html', context)

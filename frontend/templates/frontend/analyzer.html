@@ -1,0 +1,119 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header -->
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900">Analyzer Dashboard 📊</h1>
+        <p class="mt-2 text-gray-600">Deep dive into carbon metrics and community rankings.</p>
+    </div>
+
+    <!-- ML Insights -->
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl shadow-lg p-8 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+        <div class="relative z-10">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-2xl">🤖</span>
+                <h2 class="text-2xl font-bold">AI Insights & Predictions</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <p class="text-indigo-100 text-sm uppercase tracking-wider font-semibold mb-1">Predicted Year-End Debt</p>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-5xl font-extrabold">{{ prediction.predicted_year_end_debt|floatformat:0 }}</span>
+                        <span class="text-xl text-indigo-200">kg CO2</span>
+                    </div>
+                    <div class="mt-4 inline-flex items-center px-3 py-1 rounded-full bg-indigo-500 bg-opacity-30 border border-indigo-400 text-sm">
+                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                        Confidence Score: {{ prediction.confidence_score|floatformat:2 }}
+                    </div>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 rounded-xl p-6 backdrop-blur-sm border border-white border-opacity-20">
+                    <h3 class="font-bold text-lg mb-2 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Recommended Action
+                    </h3>
+                    <p class="text-indigo-50 leading-relaxed">
+                        {{ prediction.recommended_action }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboards -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Top Users -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-4 bg-green-50 border-b border-green-100 flex items-center justify-between">
+                <h3 class="font-bold text-green-800 flex items-center">
+                    <span class="mr-2">👤</span> Top Greenest Citizens
+                </h3>
+            </div>
+            <div class="divide-y divide-gray-100">
+                {% for user in top_users %}
+                <div class="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-gray-400 w-6">#{{ forloop.counter }}</span>
+                        <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">
+                            {{ user.username|slice:":1"|upper }}
+                        </div>
+                        <span class="font-medium text-gray-900">{{ user.username }}</span>
+                    </div>
+                    <span class="font-bold text-green-600">{{ user.current_carbon_score|floatformat:0 }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Top Companies -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-4 bg-blue-50 border-b border-blue-100 flex items-center justify-between">
+                <h3 class="font-bold text-blue-800 flex items-center">
+                    <span class="mr-2">🏢</span> Top Greenest Companies
+                </h3>
+            </div>
+            <div class="divide-y divide-gray-100">
+                {% for company in top_companies %}
+                <div class="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-gray-400 w-6">#{{ forloop.counter }}</span>
+                        <span class="font-medium text-gray-900">{{ company.name }}</span>
+                    </div>
+                    <span class="font-bold text-blue-600">{{ company.green_score|floatformat:0 }}</span>
+                </div>
+                {% empty %}
+                <div class="p-8 text-center text-gray-500 text-sm">No data available</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Top Districts -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-4 bg-purple-50 border-b border-purple-100 flex items-center justify-between">
+                <h3 class="font-bold text-purple-800 flex items-center">
+                    <span class="mr-2">🏘️</span> Top Greenest Districts
+                </h3>
+            </div>
+            <div class="divide-y divide-gray-100">
+                {% for district in top_districts %}
+                <div class="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-gray-400 w-6">#{{ forloop.counter }}</span>
+                        <div>
+                            <span class="font-medium text-gray-900 block">{{ district.name }}</span>
+                            <span class="text-xs text-gray-500">{{ district.city }}</span>
+                        </div>
+                    </div>
+                    <span class="font-bold text-purple-600">{{ district.green_score|floatformat:0 }}</span>
+                </div>
+                {% empty %}
+                <div class="p-8 text-center text-gray-500 text-sm">No data available</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

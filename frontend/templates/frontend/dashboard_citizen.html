@@ -77,6 +77,51 @@
         </div>
     </div>
 
+    <!-- Social & Analytics Widgets -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Social Rank -->
+        <div class="bg-gradient-to-br from-green-500 to-teal-600 rounded-xl shadow-lg p-6 text-white relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-semibold text-green-50">Social Rank</h3>
+                        <p class="text-4xl font-bold mt-2">#{{ user_rank }}</p>
+                        <p class="text-sm text-green-100 mt-1">Global Ranking</p>
+                    </div>
+                    <span class="text-4xl opacity-80">🏆</span>
+                </div>
+                <div class="mt-6">
+                    <a href="{% url 'social_hub' %}" class="inline-flex items-center text-sm font-medium text-white hover:text-green-100 transition-colors">
+                        View Leaderboard & Friends &rarr;
+                    </a>
+                </div>
+            </div>
+            <!-- Decorative circle -->
+            <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full"></div>
+        </div>
+
+        <!-- ML Prediction -->
+        <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl shadow-lg p-6 text-white relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-semibold text-indigo-50">Predicted Year-End Debt</h3>
+                        <p class="text-4xl font-bold mt-2">{{ prediction.predicted_year_end_debt|floatformat:0 }} <span class="text-lg font-normal">kg</span></p>
+                        <p class="text-sm text-indigo-100 mt-1">AI Confidence: {{ prediction.confidence_score|floatformat:0 }}%</p>
+                    </div>
+                    <span class="text-4xl opacity-80">🔮</span>
+                </div>
+                <div class="mt-6">
+                    <a href="{% url 'analyzer_hub' %}" class="inline-flex items-center text-sm font-medium text-white hover:text-indigo-100 transition-colors">
+                        View Full Analysis &rarr;
+                    </a>
+                </div>
+            </div>
+            <!-- Decorative circle -->
+            <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-24 h-24 bg-white opacity-10 rounded-full"></div>
+        </div>
+    </div>
+
     <!-- Recent Transactions -->
     <div class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:px-6 border-b border-gray-200">

@@ -36,6 +36,12 @@ urlpatterns = [
     path('analytics/user/<int:user_id>/', views.analytics_user_detail, name='analytics_user_detail'),
     path('admin/config/', views.admin_config, name='admin_config'),
 
+    # Social & Analytics
+    path('social/', views.social_hub, name='social_hub'),
+    path('social/request/send/', views.send_friend_request, name='send_friend_request'),
+    path('social/request/<int:pk>/<str:action>/', views.handle_friend_request, name='handle_friend_request'),
+    path('analyzer/', views.analyzer_hub, name='analyzer_hub'),
+
     # Agent
     path('agent/queue/', views.agent_queue, name='agent_queue'),
     path('agent/verify/<int:transaction_id>/', views.verify_planting, name='verify_planting'),
