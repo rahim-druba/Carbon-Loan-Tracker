@@ -1,54 +1,120 @@
 {% extends 'frontend/base.html' %}
 
 {% block content %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+<!-- Leaflet Heat -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="max-w-7xl mx-auto">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">System Analytics Dashboard</h1>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-lg font-medium text-gray-500">Total Citizens</h3>
-            <p class="text-4xl font-bold text-green-600 mt-2">{{ total_users }}</p>
+<div class="max-w-7xl mx-auto space-y-8">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Analytics Command Center 🌍</h1>
+            <p class="text-gray-500 mt-1">Real-time monitoring of carbon footprint and citizen activity.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-lg font-medium text-gray-500">System-wide CO2 Emissions</h3>
-            <p class="text-4xl font-bold text-red-600 mt-2">{{ total_co2_system|stringformat:".2f" }} <span
-                    class="text-sm text-gray-400">tonnes</span></p>
+        <div class="flex space-x-3">
+            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Live Data</span>
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">Kazakhstan Region</span>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-xl font-semibold mb-6">System Emissions by Source</h2>
+    <!-- KPI Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Citizens</h3>
+            <div class="mt-2 flex items-baseline">
+                <p class="text-3xl font-extrabold text-gray-900">{{ total_users }}</p>
+                <span class="ml-2 text-sm font-medium text-green-600">Active</span>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">System Emissions</h3>
+            <div class="mt-2 flex items-baseline">
+                <p class="text-3xl font-extrabold text-red-600">{{ total_co2_system|floatformat:0 }}</p>
+                <span class="ml-2 text-sm text-gray-500">tonnes CO2</span>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Avg Green Score</h3>
+            <div class="mt-2 flex items-baseline">
+                <p class="text-3xl font-extrabold text-green-600">74.2</p>
+                <span class="ml-2 text-sm text-gray-500">/ 100</span>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Offset Progress</h3>
+            <div class="mt-2 flex items-baseline">
+                <p class="text-3xl font-extrabold text-blue-600">12%</p>
+                <span class="ml-2 text-sm text-gray-500">of total debt</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+        <div class="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+            <h2 class="text-lg font-bold text-gray-900 flex items-center">
+                <span class="mr-2">🗺️</span> Geographical Consumption Heatmap
+            </h2>
+            <div class="text-sm text-gray-500">
+                Visualizing high-emission zones across districts
+            </div>
+        </div>
+        <div id="map" class="h-[600px] w-full z-0"></div>
+    </div>
+
+    <!-- Charts & Tables -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Emission Source Chart -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h2 class="text-lg font-bold text-gray-900 mb-6">Emission Sources Breakdown</h2>
             <div class="h-80">
                 <canvas id="systemChart"></canvas>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md overflow-hidden">
-            <h2 class="text-xl font-semibold mb-6">Citizen Directory</h2>
-            <div class="overflow-y-auto h-80">
+        <!-- Citizen Directory -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <h2 class="text-lg font-bold text-gray-900 mb-6">Citizen Directory</h2>
+            <div class="overflow-y-auto h-80 pr-2">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50 sticky top-0">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Username</th>
+                                User</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                City</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Location</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Action</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         {% for u in users %}
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ u.username }}
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="h-8 w-8 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center text-white font-bold text-xs">
+                                        {{ u.username|slice:":1"|upper }}
+                                    </div>
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">{{ u.username }}</div>
+                                        <div class="text-xs text-gray-500">{{ u.email }}</div>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ u.city }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ u.city|default:"Unknown" }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{% url 'analytics_user_detail' u.id %}"
-                                    class="text-green-600 hover:text-green-900">View Analytics</a>
+                                    class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded-full">Analyze</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -60,30 +126,71 @@
 </div>
 
 <script>
+    // --- Chart.js Setup ---
     const systemData = JSON.parse('{{ system_chart_data|escapejs }}');
-
     const ctx = document.getElementById('systemChart').getContext('2d');
     new Chart(ctx, {
-        type: 'bar',
+        type: 'doughnut',
         data: {
             labels: systemData.labels,
             datasets: [{
-                label: 'Total CO2 (Tonnes)',
                 data: systemData.data,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
+                backgroundColor: [
+                    'rgba(239, 68, 68, 0.8)',   // Red
+                    'rgba(59, 130, 246, 0.8)',  // Blue
+                    'rgba(16, 185, 129, 0.8)',  // Green
+                    'rgba(245, 158, 11, 0.8)',  // Yellow
+                    'rgba(139, 92, 246, 0.8)'   // Purple
+                ],
+                borderWidth: 0
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
+            plugins: {
+                legend: {
+                    position: 'right'
                 }
             }
         }
     });
+
+    // --- Leaflet Map Setup ---
+    // Default center (Kazakhstan approx center, or Almaty)
+    // Let's center on Almaty for the demo since most districts are there
+    const map = L.map('map').setView([43.238949, 76.889709], 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Data from Django
+    const districts = JSON.parse('{{ map_districts|escapejs }}');
+    const heatmapPoints = JSON.parse('{{ heatmap_points|escapejs }}');
+
+    // Add District Markers
+    districts.forEach(d => {
+        L.marker([d.lat, d.lng])
+            .addTo(map)
+            .bindPopup(`<b>${d.name}</b><br>${d.city}<br>Green Score: ${d.score.toFixed(1)}`);
+    });
+
+    // Add Heatmap Layer
+    // Points format: [lat, lng, intensity]
+    const heat = L.heatLayer(heatmapPoints, {
+        radius: 25,
+        blur: 15,
+        maxZoom: 17,
+        max: 1.0,
+        gradient: {0.4: 'blue', 0.65: 'lime', 1: 'red'}
+    }).addTo(map);
+
+    // Adjust view to fit all markers if we have them
+    if (districts.length > 0) {
+        const group = new L.featureGroup(districts.map(d => L.marker([d.lat, d.lng])));
+        map.fitBounds(group.getBounds().pad(0.1));
+    }
+
 </script>
 {% endblock %}

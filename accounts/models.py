@@ -6,6 +6,8 @@ class District(models.Model):
     name = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     green_score = models.FloatField(default=0.0) # Collective score
+    latitude = models.FloatField(default=43.238949) # Default to Almaty coords
+    longitude = models.FloatField(default=76.889709)
 
     def __str__(self):
         return f"{self.name}, {self.city}"

@@ -271,7 +271,7 @@ def citizen_analytics(request):
 
 @login_required
 def analytics_dashboard(request):
-    if not request.user.is_analytics():
+    if not request.user.is_analytics() and not request.user.is_admin_role():
         return redirect('dashboard')
         
     users = User.objects.filter(role=User.Role.CITIZEN)
@@ -284,12 +284,41 @@ def analytics_dashboard(request):
         'labels': [item['usage_type'] for item in system_usage_by_type],
         'data': [float(item['total_co2']) for item in system_usage_by_type]
     }
+
+    # Map Data: Districts
+    districts = District.objects.all()
+    map_districts = []
+    for d in districts:
+        map_districts.append({
+            'name': d.name,
+            'city': d.city,
+            'lat': d.latitude,
+            'lng': d.longitude,
+            'score': d.green_score
+        })
+    
+    # Heatmap Data: Simulate consumption hotspots
+    # In a real app, this would be aggregated from transaction locations
+    # We'll generate some random points around the districts to simulate density
+    heatmap_points = []
+    import random
+    for d in districts:
+        # Generate 20-50 points per district
+        count = int(random.uniform(20, 50))
+        for _ in range(count):
+            # Add small random offset to lat/lng
+            lat_offset = random.uniform(-0.02, 0.02)
+            lng_offset = random.uniform(-0.02, 0.02)
+            intensity = random.uniform(0.5, 1.0) # 0.0 to 1.0
+            heatmap_points.append([d.latitude + lat_offset, d.longitude + lng_offset, intensity])
     
     return render(request, 'frontend/analytics_dashboard.html', {
         'users': users,
         'total_users': total_users,
         'total_co2_system': total_co2_system,
-        'system_chart_data': json.dumps(system_chart_data)
+        'system_chart_data': json.dumps(system_chart_data),
+        'map_districts': json.dumps(map_districts),
+        'heatmap_points': json.dumps(heatmap_points)
     })
 
 @login_required

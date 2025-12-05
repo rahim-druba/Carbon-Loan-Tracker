@@ -9,16 +9,23 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write('Creating demo data...')
 
-        # Districts
+        # Districts with approx coords
         districts_data = [
-            ('Almaly', 'Almaty'), ('Medeu', 'Almaty'), ('Bostandyk', 'Almaty'),
-            ('Esil', 'Astana'), ('Saryarka', 'Astana'), ('Almaty', 'Astana'),
-            ('Kazybek Bi', 'Karaganda'), ('Oktyabr', 'Karaganda')
+            ('Almaly', 'Almaty', 43.25, 76.91), 
+            ('Medeu', 'Almaty', 43.20, 77.00), 
+            ('Bostandyk', 'Almaty', 43.21, 76.92),
+            ('Esil', 'Astana', 51.12, 71.43), 
+            ('Saryarka', 'Astana', 51.17, 71.42), 
+            ('Almaty', 'Astana', 51.14, 71.48),
+            ('Kazybek Bi', 'Karaganda', 49.80, 73.10), 
+            ('Oktyabr', 'Karaganda', 49.85, 73.15)
         ]
         districts = []
-        for name, city in districts_data:
+        for name, city, lat, lon in districts_data:
             d, created = District.objects.get_or_create(name=name, city=city)
             d.green_score = random.uniform(50, 95)
+            d.latitude = lat
+            d.longitude = lon
             d.save()
             districts.append(d)
         self.stdout.write(f'Created {len(districts)} districts.')
