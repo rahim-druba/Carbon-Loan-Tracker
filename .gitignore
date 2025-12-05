@@ -32,3 +32,25 @@ staticfiles/
 .DS_Store
 Thumbs.db
 *.docx
+
+# Large datasets and training data (over 100MB)
+training_models/datasets/*.txt
+training_models/datasets/*.csv
+training_models/datasets/household_power_consumption*.txt
+training_models/datasets/household_power_consumption*.csv
+
+# Large binary files
+*.dll
+*.so
+*.dylib
+
+# Pytest cache
+.pytest_cache/
+
+# Model files that might be large
+*.pkl
+*.h5
+*.hdf5
+*.ckpt
+*.pt
+*.pth
